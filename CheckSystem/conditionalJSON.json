@@ -1,0 +1,23 @@
+{		
+  "totalCredits":120.0,
+  "GPA":3.12,
+  "subjects": [
+	{
+	  "name": "ABC",
+	  "mincredits": "2.0",
+	  "mingrades": "C"
+	},
+	{
+	  "name": "DEF",
+	  "mincredits": "2.0",
+	  "mingrades": "C"
+	},
+	{
+	  "name": "GHI",
+	  "mincredits": "2.0",
+	  "mingrades": "C"
+	}
+  ]
+  
+}
+	
