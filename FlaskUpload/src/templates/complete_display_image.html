@@ -3,9 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+        button {
+            clear: both;
+            display: block;
+        }
+    </style>
 </head>
 <body>
-Uploaded
-<img src=" {{url_for('send_image', filename=image_name)}}">
+   <h1> Uploaded</h1>
+<div><h1>Take the screenshot and Enjoy!!</h1>
+<h1>Hello..This is updated file</h1>
+
+</div>
+
+
+<button>Run html2canvas</button>
+<canvas width="1500" height="400"></canvas>
+<script type="text/javascript" src="html2canvas.js"></script>
+<script type="text/javascript">
+    var canvas = document.querySelector("canvas");
+    var ctx = canvas.getContext("2d");
+
+
+    document.querySelector("button").addEventListener("click", function() {
+        html2canvas(document.body, {canvas: canvas}).then(function(canvas) {
+            //console.log('Drew on the existing canvas');
+        });
+    }, false);
+
+</script>
 </body>
 </html>
