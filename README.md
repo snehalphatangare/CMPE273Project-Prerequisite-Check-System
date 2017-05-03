@@ -16,8 +16,8 @@ The system then send the email notification if the student is successfully enrol
 
 
 Tools -
-1.openCV\n
-2.pytesseract\n
-3.HTMLtoCanvas\n
+1.openCV
+2.pytesseract
+3.HTMLtoCanvas
 4.FlaskApi
 
