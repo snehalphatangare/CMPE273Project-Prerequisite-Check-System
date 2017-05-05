@@ -1,20 +1,15 @@
 {		
-  "totalCredits":120.0,
-  "GPA":3.12,
+  "minTotalCredits":9.0,
+  "minGPA":3.00,
   "subjects": [
 	{
-	  "name": "ABC",
-	  "mincredits": "2.0",
+	  "name": "Principles of Business Law",
+	  "mincredits": "",
 	  "mingrades": "C"
 	},
 	{
-	  "name": "DEF",
-	  "mincredits": "2.0",
-	  "mingrades": "C"
-	},
-	{
-	  "name": "GHI",
-	  "mincredits": "2.0",
+	  "name": "Account Reports and ANALYSIS",
+	  "mincredits": "3",
 	  "mingrades": "C"
 	}
   ]
