@@ -1,0 +1,18 @@
+{
+	"subjects": [
+	  	{
+			"courseName": "CMPE 273",
+			"courseDesc": "Ent Dist Systems",
+			"profName": "Sithu Aung",
+			"profEmail": "sithu.aung@sjsu.edu",
+			"prereqCourses": "CMPE 272"
+		},
+		{
+			"courseName": "CMPE 275",
+			"courseDesc": "Ent Dist Systems",
+			"profName": "Sithu Aung",
+			"profEmail": "sithu.aung@sjsu.edu",
+			"prereqCourses": "CMPE 273"
+		}
+	]
+}
