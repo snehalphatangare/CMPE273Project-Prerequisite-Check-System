@@ -10,7 +10,7 @@ import cv2
 import sys
 import numpy as np
 
-src_path = "/Users/Abhishek/Sem1Projects/CMPE273Project/PrerequisiteCheckSystem/"
+src_path = "/Users/Abhishek/Sem1Projects/CMPE273Project/PrerequisiteCheckSystem/workingTemplates/"
 
 
 def get_string(img_path):
@@ -40,9 +40,17 @@ def get_string(img_path):
     #Image.open(src_path + "thres.png")
 
     # os.remove(temp)
-    return result
+    #return result
+
+
+    f = open("/Users/Abhishek/Sem1Projects/CMPE273Project/PrerequisiteCheckSystem/output.txt", "w");
+
+    #print f
+    f.write(result)
+    f.close()
+
 
 print '--- Start recognize text from image ---'
-print get_string(src_path + "new doc 4_2.jpg")
+get_string(src_path + "myTranscript_1.jpg")
 
 print "------ Done -------"
