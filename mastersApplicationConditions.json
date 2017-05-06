@@ -1,6 +1,6 @@
 {		
-  "minTotalCredits":9.0,
-  "minGPA":3.00,
+  "minTotalCredits":"9.0",
+  "minGPA":"3.00",
   "subjects": [
 	{
 	  "name": "Principles of Business Law",
