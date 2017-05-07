@@ -3,7 +3,7 @@
 	  	{
 			"courseName": "CMPE 272",
 			"courseDesc": "Enterprise SW Overview",
-			"mingrades": "C"
+			"mingrades": ""
 		},
 		{
 			"courseName": "CMPE 202",
@@ -13,7 +13,12 @@
 		{
 			"courseName": "CMPE 273",
 			"courseDesc": "Ent Dist Systems",
-			"mingrades": "B-"
+			"mingrades": "A"
+		},
+		{
+			"courseName": "CMPE 281",
+			"courseDesc": "Cloud Computing",
+			"mingrades": "B+"
 		}
 	]
 }
