@@ -13,6 +13,20 @@
 			"profName": "Sithu Aung",
 			"profEmail": "sithu.aung@sjsu.edu",
 			"prereqCourses": "CMPE 273"
+		},
+		{
+			"courseName": "CMPE 281",
+			"courseDesc": "Cloud Computing",
+			"profName": "Paul Nguyen",
+			"profEmail": "paul.nguyen@sjsu.edu",
+			"prereqCourses": "CMPE 202"
+		},
+		{
+			"courseName": "CMPE 283",
+			"courseDesc": "Virtualization",
+			"profName": "M Larkin",
+			"profEmail": "larkin@sjsu.edu",
+			"prereqCourses": "CMPE 281"
 		}
 	]
 }
