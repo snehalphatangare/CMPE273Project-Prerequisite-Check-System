@@ -39,7 +39,7 @@ def login():
             
             print "invalid user"
 
-        print user[1]
+        
         print recordfounf
         if user[1] == 'sjsu.edu' and recordfounf=='true':
             return redirect(url_for('secret'))
