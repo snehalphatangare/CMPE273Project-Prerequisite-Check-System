@@ -1,5 +1,18 @@
 <html>
   <head>
+      <me
+        <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+        button {
+            clear: both;
+            display: block;
+        }
+    </style>
+
     <title>Second Page-Enrollment Details</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
@@ -7,11 +20,13 @@
   
   <body>
     <div class="container">
+
+	  <form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
       <center><h1>ENROLLMENT DETAILS</h1></center>
       <center>
-	  <b><a href="about.html">Enrolling for Masters</a></b> | <b><a href="">Semester Enrollment</a></b> 
+	  <b><a href="http://127.0.0.1:4509/about.html">Enrolling for Masters</a></b> | <b><a href="ListofDept.html">Semester Enrollment</a></b> 
 	  </center>
-	  
+    </form>
     </div>
   </body>
 </html>
