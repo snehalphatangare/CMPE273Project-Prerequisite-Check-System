@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div><h1>Take the screenshot and Enjoy</h1>
+    <div id="content">uploaded</div>
+    <img src=" {{url_for('send_image', filename=image_name)}}">
+
+<canvas width="1000" height="400"></canvas>
+<script src="{{url_for('static', filename='html2canvas.js')}}"></script>
+<button>Run html2canvas</button>
+<script type="text/javascript">
+    var canvas = document.querySelector("canvas");
+    var ctx = canvas.getContext("2d");
+
+
+    document.querySelector("button").addEventListener("click", function() {
+       html2canvas(document.body, {
+       onrendered: function(canvas) {
+       var img = canvas.toDataURL()
+     window.open(img);
+  }
+});
+    }, false);
+
+</script>
+
+
+</div>
+
+
+
+
+
+</body>
+</html>
