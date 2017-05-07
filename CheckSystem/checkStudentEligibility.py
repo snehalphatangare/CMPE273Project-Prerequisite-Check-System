@@ -4,8 +4,9 @@ import re
 gradeToIntMap={'C-':1,'C':1.1,'C+':1.2,'B-':1.3,'B':1.4,'B+':1.5,'A-':1.6,'A':1.7,'A+':1.8}
 
 def checkEligibility(applicationType,requestedSubjects):
-    file = open('sampleExtractedText1.txt', 'r')
+    file = open('output.txt', 'r')
     extractedString = file.read()
+    extractedString = str(extractedString)
     lstTranscriptLines = extractedString.splitlines()
     #print 'lstTranscriptLines= ', lstTranscriptLines
     #print ' # of lines in transcripts= ', len(lstTranscriptLines)
@@ -13,38 +14,40 @@ def checkEligibility(applicationType,requestedSubjects):
         eligible=checkMastersEligibility(lstTranscriptLines);
         print "MASTERs eligibility satisfied= ",eligible
     elif(applicationType!='' and applicationType == "Subject Enrollment" and len(requestedSubjects) > 0):
-        mapSubRequestedToEligibilityMap=checkSubEnrollmentEligibility(lstTranscriptLines,requestedSubjects);
+        mapSubRequestedToEligibilityMap,mapEligibleSubToProfMail=checkSubEnrollmentEligibility(lstTranscriptLines,requestedSubjects);
         print "Subject Enrollment eligibility satisfied= ",mapSubRequestedToEligibilityMap
+        print "Subject Enrollment eligibile subjects professor details= ",mapEligibleSubToProfMail
 
 #Master's application pre-requisite check usecase
 def checkMastersEligibility(lstTranscriptLines):
     # Read the conditions file
     with open('mastersApplicationConditions.json') as data_file:
         conditionsData = json.load(data_file)
-    print 'conditions data = ', conditionsData
+    #print 'conditions data = ', conditionsData
 
     # Get data from extracted transcript string
     overallConditionSatisfied = 'true'
     for line in lstTranscriptLines:
         if line.lower().strip().find('university') > -1:
             university = line.strip()
-            #print '******university found ', university
+            print '******university found ', university
 
         if(conditionsData['minGPA']!=''):
             overallConditionSatisfied = 'false'
             if line.lower().strip().find('semester credits') > -1:
                 var = line.partition('Semester Credits')[2]
-                # print" var = ", var
+                print" var = ", var
                 if var.lower().find('gpa') > 0:
                     finalGPA = var.partition('GPA')[2]
                     finalGPA = re.findall(r"(\d+\.\d+)", finalGPA)[0]
-                    #print '********finalGPA= ', finalGPA
+                    print '********finalGPA= ', finalGPA
                     finalCredits = var.partition('GPA')[0]
                     finalCredits = finalCredits.strip()
                     finalCredits = re.findall(r"(\d+\.\d+)", finalCredits)[0]
-                    #print '*****finalCredits= ', finalCredits
+                    print '*****finalCredits= ', finalCredits
                     if(float(finalGPA) >= float(conditionsData['minGPA'])):
                         overallConditionSatisfied = 'true'
+                        break
     print "Overall GPA conditions satisfied = ",overallConditionSatisfied
 
     if(overallConditionSatisfied == "true"):
@@ -65,6 +68,7 @@ def checkMastersEligibility(lstTranscriptLines):
                 subjectConditionSatisfied = 'false'
 
                 for line in lstTranscriptLines:
+                    #print "line= ",line
                     # Check if line contains the subject
                     if line.lower().strip().find(subjectConditions[i]['name'].lower()) > -1:
                         # If required, check the credits in this subject
@@ -87,12 +91,14 @@ def checkMastersEligibility(lstTranscriptLines):
 #Subject Enrollment pre-requisite check usecase
 def checkSubEnrollmentEligibility(lstTranscriptLines,requestedSubjects):
     print "subjects requested for Enrollment= ", requestedSubjects
-    #Map of subjects requested to eligibility
+    #Map of subjects requested to eligibility satisfied
     mapSubRequestedToEligibilityMap={}
     for reqSub in requestedSubjects:
         mapSubRequestedToEligibilityMap[reqSub]=''
+    #Map of eligible subject and professor email
+    mapEligibleSubToProfMail={}
 
-    # Read the conditions file
+    # Read the subjectEnrollmentConditions file
     with open('subjectEnrollmentConditions.json') as data_file:
         conditionsData = json.load(data_file)
     print 'conditions data = ', conditionsData
@@ -121,9 +127,11 @@ def checkSubEnrollmentEligibility(lstTranscriptLines,requestedSubjects):
             else: #Requested subject has no pre-requisities
                 mapSubRequestedToEligibilityMap[requestedSub]='true'
     else: #No pre-requisite data defined in info.json
-        return mapSubRequestedToEligibilityMap
+        for reqSub in mapSubRequestedToEligibilityMap.keys():
+            mapSubRequestedToEligibilityMap[reqSub]='true'
 
-    return mapSubRequestedToEligibilityMap
+    mapEligibleSubToProfMail=getProfDetails(mapSubRequestedToEligibilityMap,infoData['subjects'])
+    return mapSubRequestedToEligibilityMap,mapEligibleSubToProfMail
 
 def checkPrereqRequired(requestedSub,infoDataSubjects):
     for infoSub in infoDataSubjects:
@@ -150,17 +158,38 @@ def checkIfPrereqSatisfied(lstTranscriptLines,prereqCourseName,subjectConditions
                         if(gradeObtained!=''):
                             gradeObtainedInt=gradeToIntMap.get(gradeObtained.strip())
                             print "gradeObtainedInt = ",gradeObtainedInt
-                            if(gradeObtainedInt!='' and minGradeInInt!='' and gradeObtainedInt >= minGradeInInt):
-                                print "mingrades condition satisfied for prereqCourseName ", prereqCourseName
+                            if(gradeObtainedInt!='' and minGradeInInt!=''):
+                                if(gradeObtainedInt >= minGradeInInt):
+                                    print "mingrades condition satisfied for prereqCourseName ", prereqCourseName
+                                    #mapEligibleSubToProfMail[]=
+                                    return 'true'
+                                else:
+                                    return 'false'
+                            else:
+                                #some problem in determining grades
                                 return 'true'
                     else:
                         return 'true'
+            #subjectEnrollmentConditions file does not have record for the pre-requisite subject
+            return 'true'
 
     #pre-req subject not found in students transcript
     return 'false'
 
+def getProfDetails(mapSubRequestedToEligibilityMap,infoDataSubjects):
+    mapEligibleSubToProfMail={}
+    for reqSub in mapSubRequestedToEligibilityMap.keys():
+        if(mapSubRequestedToEligibilityMap[reqSub]!='' and mapSubRequestedToEligibilityMap[reqSub]=='true'):
+            for infoSub in infoDataSubjects:
+                if(infoSub["courseName"].lower() == reqSub.lower() and infoSub["profEmail"]!=''):
+                    mapEligibleSubToProfMail[reqSub]=infoSub["profEmail"]
+
+    return mapEligibleSubToProfMail
+
 if __name__ == '__main__':
-    applicationType = "Subject Enrollment"
+    #applicationType = "Subject Enrollment"
+    applicationType = "Masters"
     #list of subjects requested for Enrollment in case of applicationType "Subject Enrollment"
-    requestedSubjects=["CMPE 273"]
+    #requestedSubjects=["CMPE 273","CMPE 281"]
+    requestedSubjects=[]
     checkEligibility(applicationType,requestedSubjects)
