@@ -6,8 +6,8 @@
 </head>
 <body>
 
-<div><h1>Take the screenshot and Enjoy</h1>
-    <div id="content">uploaded</div>
+<div id="content"><h1>Take the screenshot and Enjoy</h1>
+    
     <img src=" {{url_for('send_image', filename=image_name)}}">
 
 <canvas width="1000" height="400"></canvas>
@@ -19,10 +19,10 @@
 
 
     document.querySelector("button").addEventListener("click", function() {
-       html2canvas(document.body, {
+       html2canvas(document.getElementById('content'), {
        onrendered: function(canvas) {
        var img = canvas.toDataURL()
-     window.open(img);
+       window.open(img);
   }
 });
     }, false);

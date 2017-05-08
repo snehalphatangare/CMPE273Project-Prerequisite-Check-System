@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <title>third Page-about</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  
+  <body>
+    <div class="container">
+      <b><center><h1>Enrolling for Masters</h1></center></b>
+	  
+	  <p>Please select your degree course</p>
+	  
+	  <p></p>
+	  Available Degree Courses at SJSU are as follows:
+	  <br />
+    <b><a href="{{ url_for('news') }}">SE Subjects</a></b>
+      <br />
+	  <br />
+	  <b><a href="{{ url_for('news') }}">CE Subjects</a></b>
+      <br />
+	  <br />
+	  <input type="radio" name="course"  />MSEE
+      <br />
+	  <br />
+	  <input type="radio" name="course"  />MSCS
+      <br />
+     <br />
+	  <input type="radio" name="course"  />MSIS
+      <br />
+    </div>
+  </body>
+</html>
