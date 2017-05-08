@@ -1,7 +1,109 @@
 import json
 import re
+from PIL import Image
+import os
+from uuid import uuid4
+from flask import Flask, request, render_template, send_from_directory
+import pytesseract
+from pytesseract import image_to_string
+import smtplib
+import sqlite3
+
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEText import MIMEText
+
+app = Flask(__name__)
 
 gradeToIntMap={'C-':1,'C':1.1,'C+':1.2,'B-':1.3,'B':1.4,'B+':1.5,'A-':1.6,'A':1.7,'A+':1.8}
+
+@app.route("/doOCR", methods=["POST"])
+def doOCR():
+    img = Image.open(request.files['file'])
+    result = image_to_string(img, lang='eng')
+    file = open('output.txt','w')
+    file.write(result) 
+    file.close()
+
+    # will be fetched from the client
+    #applicationType = "Subject Enrollment" 
+    applicationType = "Masters"
+    #requestedSubjects=["CMPE 273","CMPE 281"]
+    requestedSubjects=[]
+
+    if(applicationType == "Masters"):
+        isEligible = checkEligibility(applicationType,requestedSubjects)
+        isEligible = "true"
+        if(isEligible):
+            
+            ##Save the student enrollment details in the db
+
+            masterProgrammeEnrolled = 'MSSE'
+            stuEmailId = "shraddha.yeole@sjsu.edu"
+            enrollmentStatus = 'Active'
+            saveDetailsToDB(masterProgrammeEnrolled, stuEmailId, enrollmentStatus)
+
+
+            ##student's email id to be fetched from his login session request
+            toaddr = "shraddha.yeole@sjsu.edu"
+            #send notification mail to the student from the dept chair
+            sendNotificationMail(toaddr)
+            
+
+    else:
+        mapSubRequestedToEligibilityMap,mapEligibleSubToProfMail = checkEligibility(applicationType,requestedSubjects)
+
+    return 'Success!'
+
+def saveDetailsToDB(masterProgrammeEnrolled, stuEmailId, enrollmentStatus):
+    conn = sqlite3.connect('EnrollmentDetailsDB.sqlite')
+    c = conn.cursor()
+    #c.execute("INSERT INTO EnrollmentDetailsDB (stu_emailID, degree_enrolled, enrollmentStatus) \
+    #  VALUES ("stuEmailId", masterProgrammeEnrolled , enrollmentStatus )");
+
+    c.execute('''INSERT INTO EnrollmentDetailsDB(stu_emailID, degree_enrolled, enrollmentStatus)
+                  VALUES(?,?,?)''', (stuEmailId,masterProgrammeEnrolled, enrollmentStatus))
+
+    print "Enrollment Data inserted !!"  
+    # Committing changes and closing the connection to the database file
+    conn.commit()
+    conn.close()
+
+def sendNotificationMail(toaddr):
+    # Connecting to the database file
+    conn = sqlite3.connect('CheckSyatemDB.sqlite')
+    c = conn.cursor()
+
+    c.execute('SELECT * FROM emailDB')
+    dbRecordTuple = c.fetchone()
+    emailId = dbRecordTuple[0]
+    print emailId
+    ##check systems email id is fetched from email.properties file
+    checkSystemEmailAddr = dbRecordTuple[0]
+    checkSystemEmailPwd = dbRecordTuple[1]
+
+    ##student's email id to be fetched from his login session request
+    ##toaddr = "shraddha.yeole@sjsu.edu"
+    msg = MIMEMultipart()
+    msg['From'] = checkSystemEmailAddr
+    msg['To'] = toaddr
+    msg['Subject'] = "Prerequisite Check System"
+
+
+    ##fetching this flag from DB for that particular student
+           
+    body = "You Are Enrolled Successfully"
+    msg.attach(MIMEText(body, 'plain'))
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login(checkSystemEmailAddr, checkSystemEmailPwd)
+    text = msg.as_string()
+    server.sendmail(checkSystemEmailAddr, toaddr, text)
+    server.quit()
+
+    # Committing changes and closing the connection to the database file
+    conn.commit()
+    conn.close()
+    
 
 def checkEligibility(applicationType,requestedSubjects):
     file = open('output.txt', 'r')
@@ -13,10 +115,16 @@ def checkEligibility(applicationType,requestedSubjects):
     if(applicationType!='' and applicationType == "Masters"):
         eligible=checkMastersEligibility(lstTranscriptLines);
         print "MASTERs eligibility satisfied= ",eligible
+        return eligible
     elif(applicationType!='' and applicationType == "Subject Enrollment" and len(requestedSubjects) > 0):
         mapSubRequestedToEligibilityMap,mapEligibleSubToProfMail=checkSubEnrollmentEligibility(lstTranscriptLines,requestedSubjects);
         print "Subject Enrollment eligibility satisfied= ",mapSubRequestedToEligibilityMap
         print "Subject Enrollment eligibile subjects professor details= ",mapEligibleSubToProfMail
+        return  mapSubRequestedToEligibilityMap,mapEligibleSubToProfMail
+
+
+
+
 
 #Master's application pre-requisite check usecase
 def checkMastersEligibility(lstTranscriptLines):
@@ -68,9 +176,9 @@ def checkMastersEligibility(lstTranscriptLines):
                 subjectConditionSatisfied = 'false'
 
                 for line in lstTranscriptLines:
-                    #print "line= ",line
+                    print "line= ",line
                     # Check if line contains the subject
-                    if line.lower().strip().find(subjectConditions[i]['name'].lower()) > -1:
+                    if line.decode('utf-8').lower().strip().find(subjectConditions[i]['name'].lower()) > -1:
                         # If required, check the credits in this subject
                         if(subjectConditions[i]['mincredits'] != ""):
                             # Find floting number
@@ -143,7 +251,7 @@ def checkIfPrereqSatisfied(lstTranscriptLines,prereqCourseName,subjectConditions
     print "checking pre-requisite %s in transcript " %(prereqCourseName)
     for line in lstTranscriptLines:
         # Check if line contains the subject
-        if line.lower().strip().find(prereqCourseName.lower()) > -1:
+        if line.decode('utf-8').lower().strip().find(prereqCourseName.lower()) > -1:
             print "prereq found in transcript in line " , line
             #Get the mingrades condition for the prereq from subjectEnrollmentConditions file
             for i in range(0,len(subjectConditions)):
@@ -187,9 +295,7 @@ def getProfDetails(mapSubRequestedToEligibilityMap,infoDataSubjects):
     return mapEligibleSubToProfMail
 
 if __name__ == '__main__':
-    #applicationType = "Subject Enrollment"
-    applicationType = "Masters"
-    #list of subjects requested for Enrollment in case of applicationType "Subject Enrollment"
-    #requestedSubjects=["CMPE 273","CMPE 281"]
-    requestedSubjects=[]
-    checkEligibility(applicationType,requestedSubjects)
+    app.run(port=4556, debug=True)
+    
+
+    
