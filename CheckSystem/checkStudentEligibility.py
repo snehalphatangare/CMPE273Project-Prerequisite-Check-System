@@ -5,6 +5,7 @@ import os
 from uuid import uuid4
 from flask import Flask, request, render_template, send_from_directory
 import pytesseract
+from base64 import decodestring
 from pytesseract import image_to_string
 import smtplib
 import sqlite3
@@ -18,11 +19,27 @@ gradeToIntMap={'C-':1,'C':1.1,'C+':1.2,'B-':1.3,'B':1.4,'B+':1.5,'A-':1.6,'A':1.
 
 @app.route("/doOCR", methods=["POST"])
 def doOCR():
-    img = Image.open(request.files['file'])
-    result = image_to_string(img, lang='eng')
+    
+    print "----------------Server Invoked-------------------"
+
+    #fetch the base64 image string from the request
+    data = dict(request.form)
+    img_data = data['img_val'][0].split(',')[1]
+  
+    #save to image file
+    fh = open('imageToSave.png', 'wb')
+    fh.write(decodestring(str(img_data)))
+    fh.close()
+
+    #do OCR on the saved image
+    fh = open('imageToSave.png', 'r')
+    result = image_to_string(Image.open(fh), lang='eng')
     file = open('output.txt','w')
     file.write(result) 
     file.close()
+    fh.close()
+    return 'Success!'
+
 
     # will be fetched from the client
     #applicationType = "Subject Enrollment" 
@@ -32,25 +49,31 @@ def doOCR():
 
     if(applicationType == "Masters"):
         isEligible = checkEligibility(applicationType,requestedSubjects)
-        isEligible = "true"
+        #isEligible = "true"
         if(isEligible):
             
             ##Save the student enrollment details in the db
 
             masterProgrammeEnrolled = 'MSSE'
-            stuEmailId = "shraddha.yeole@sjsu.edu"
+            #stuEmailId = "manasimilind.joshi@sjsu.edu"
             enrollmentStatus = 'Active'
-            saveDetailsToDB(masterProgrammeEnrolled, stuEmailId, enrollmentStatus)
+           # saveDetailsToDB(masterProgrammeEnrolled, stuEmailId, enrollmentStatus)
 
 
             ##student's email id to be fetched from his login session request
-            toaddr = "shraddha.yeole@sjsu.edu"
+            toaddr = "manasimilind.joshi@sjsu.edu"
             #send notification mail to the student from the dept chair
             sendNotificationMail(toaddr)
             
 
     else:
         mapSubRequestedToEligibilityMap,mapEligibleSubToProfMail = checkEligibility(applicationType,requestedSubjects)
+
+
+    
+
+    #print result
+
 
     return 'Success!'
 
