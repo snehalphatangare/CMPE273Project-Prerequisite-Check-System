@@ -19,6 +19,22 @@
 			"courseName": "CMPE 281",
 			"courseDesc": "Cloud Computing",
 			"mingrades": "B+"
+		},
+		{
+			"courseName": "EE 210",
+			"courseDesc": "Linear System Theory",
+			"mingrades": "B"
+		},
+		{
+			"courseName": "CMPE 250",
+			"courseDesc": "Probabilities, Random Variables and Stochastic Process",
+			"mingrades": "B+"
+		},
+		{
+			"courseName": "CMPE 251",
+			"courseDesc": "Digital Communication Systems",
+			"mingrades": "C"
 		}
+		
 	]
 }
