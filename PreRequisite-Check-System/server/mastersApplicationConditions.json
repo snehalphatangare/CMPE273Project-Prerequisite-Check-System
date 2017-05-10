@@ -1,0 +1,17 @@
+{		
+  "minTotalCredits":"9.0",
+  "minGPA":"3.80",
+  "subjects": [
+	{
+	  "name": "Principles of Business Law",
+	  "mincredits": "",
+	  "mingrades": "C"
+	},
+	{
+	  "name": "Accounting Transactions",
+	  "mincredits": "",
+	  "mingrades": "C"
+	}
+  ]
+  
+}
