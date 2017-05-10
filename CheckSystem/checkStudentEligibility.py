@@ -24,7 +24,25 @@ def doOCR():
 
     #fetch the base64 image string from the request
     data = dict(request.form)
+    #print data
     img_data = data['img_val'][0].split(',')[1]
+
+    courses = data['courses'][0].split('&')
+    #print "Selected Courses ", courses
+
+    coursesList = []
+
+    for i in range(len(courses)):
+        eachCourse = courses[i]
+        eachCourse = eachCourse.split('=')[0]
+        eachCourse = str(eachCourse).replace('+',' ')
+        print eachCourse
+        coursesList.append(eachCourse)
+
+    print "Courses List ", coursesList
+    userEmail = data['userEmail'][0]
+    print "User Email ", userEmail
+
   
     #save to image file
     fh = open('imageToSave.png', 'wb')
@@ -38,14 +56,17 @@ def doOCR():
     file.write(result) 
     file.close()
     fh.close()
-    return 'Success!'
+    #return 'Success!'
 
 
     # will be fetched from the client
-    #applicationType = "Subject Enrollment" 
-    applicationType = "Masters"
+    applicationType = "Subject Enrollment" 
+    mastersProgramme = "MSSE"
+    #applicationType = "Masters"
     #requestedSubjects=["CMPE 273","CMPE 281"]
-    requestedSubjects=[]
+    #requestedSubjects=["EE 253"]
+    requestedSubjects = coursesList
+    #requestedSubjects=[]
 
     if(applicationType == "Masters"):
         isEligible = checkEligibility(applicationType,requestedSubjects)
@@ -54,28 +75,62 @@ def doOCR():
             
             ##Save the student enrollment details in the db
 
-            masterProgrammeEnrolled = 'MSSE'
-            #stuEmailId = "manasimilind.joshi@sjsu.edu"
+            masterProgrammeEnrolled =[]
+            masterProgrammeEnrolled.append(mastersProgramme)
+            stuEmailId = "saumya.bhasin@sjsu.edu"
             enrollmentStatus = 'Active'
-           # saveDetailsToDB(masterProgrammeEnrolled, stuEmailId, enrollmentStatus)
+            #saveDetailsToDB(masterProgrammeEnrolled, stuEmailId, enrollmentStatus)
 
 
             ##student's email id to be fetched from his login session request
-            toaddr = "manasimilind.joshi@sjsu.edu"
+            toaddr = userEmail
             #send notification mail to the student from the dept chair
-            sendNotificationMail(toaddr)
+            #sendNotificationMail(stuEmailId,"true",masterProgrammeEnrolled)
             
+        else:
+            sendNotificationMail(stuEmailId,"false",masterProgrammeEnrolled)
 
     else:
         mapSubRequestedToEligibilityMap,mapEligibleSubToProfMail = checkEligibility(applicationType,requestedSubjects)
+        print "Subject Enrollment eligibility satisfied= ",mapSubRequestedToEligibilityMap
+        print "Subject Enrollment eligibile subjects professor details= ",mapEligibleSubToProfMail
 
 
-    
+        eligibleCoursesList = []
+        eligibleCourseProfMailList = []
+        #--- WRITE CODE FOR SAVING THE ELEIGIBLE COURSES INFO IN DB AND ALSO SEND MAIL TO RESPECTIVE PROF AND STUDENT
 
-    #print result
+        #Finding eligible courses with true condition
+        for courseName,isEleigible in mapSubRequestedToEligibilityMap.items():
+            print courseName, 'corresponds to',isEleigible
+            if(isEleigible):
+                eligibleCoursesList.append(courseName)
+
+        #finding eligible courses' prof details     
+        for key in mapEligibleSubToProfMail.keys():
+            for eligibleCourse in eligibleCoursesList:
+                if(eligibleCourse==key):
+                    eligibleCourseProfMailList.append(mapEligibleSubToProfMail[key])
+                    
+        print eligibleCoursesList
+        print eligibleCourseProfMailList
+
+        if(len(eligibleCoursesList)>0):
+            if(len(eligibleCourseProfMailList)>0):
+                for i in range(len(eligibleCourseProfMailList)):
+                    if(eligibleCourseProfMailList[i]=='sithu.aung@sjsu.edu'):
+                        #send mail to that prof
+                        profEmail = eligibleCourseProfMailList[i]
+                        #sendNotificationMail(profEmail,"true", eligibleCoursesList)
+
+            #send mail to the student
+            stuEmail = userEmail
+            #sendNotificationMail(stuEmail, "true", eligibleCoursesList)             
+                        
+   
 
 
-    return 'Success!'
+    return 'Success..Please check your mail box for enrollment eligibility!'
 
 def saveDetailsToDB(masterProgrammeEnrolled, stuEmailId, enrollmentStatus):
     conn = sqlite3.connect('EnrollmentDetailsDB.sqlite')
@@ -91,7 +146,7 @@ def saveDetailsToDB(masterProgrammeEnrolled, stuEmailId, enrollmentStatus):
     conn.commit()
     conn.close()
 
-def sendNotificationMail(toaddr):
+def sendNotificationMail(toaddr,isEligible, coursesList):
     # Connecting to the database file
     conn = sqlite3.connect('CheckSyatemDB.sqlite')
     c = conn.cursor()
@@ -110,11 +165,18 @@ def sendNotificationMail(toaddr):
     msg['From'] = checkSystemEmailAddr
     msg['To'] = toaddr
     msg['Subject'] = "Prerequisite Check System"
-
-
+    
     ##fetching this flag from DB for that particular student
-           
-    body = "You Are Enrolled Successfully"
+    if(isEligible):
+        if(len(coursesList)>0):
+            bodyStr = "You are enrolled successfully for below courses :" ,coursesList
+            body = bodyStr
+        else:
+            body = "You Are Enrolled Successfully for the master's programmes ", coursesList
+    else:
+        body = "Sorry..You do not match the eligibility criteria!!"
+               
+    
     msg.attach(MIMEText(body, 'plain'))
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()
@@ -166,13 +228,14 @@ def checkMastersEligibility(lstTranscriptLines):
         if(conditionsData['minGPA']!=''):
             overallConditionSatisfied = 'false'
             if line.lower().strip().find('semester credits') > -1:
-                var = line.partition('Semester Credits')[2]
+                #var = line.partition('Semester Credits')[2]
+                var = line.lower().partition('semester credits')[2]
                 print" var = ", var
                 if var.lower().find('gpa') > 0:
-                    finalGPA = var.partition('GPA')[2]
+                    finalGPA = var.partition('gpa')[2]
                     finalGPA = re.findall(r"(\d+\.\d+)", finalGPA)[0]
                     print '********finalGPA= ', finalGPA
-                    finalCredits = var.partition('GPA')[0]
+                    finalCredits = var.partition('gpa')[0]
                     finalCredits = finalCredits.strip()
                     finalCredits = re.findall(r"(\d+\.\d+)", finalCredits)[0]
                     print '*****finalCredits= ', finalCredits
@@ -283,9 +346,13 @@ def checkIfPrereqSatisfied(lstTranscriptLines,prereqCourseName,subjectConditions
                         minGradeInInt=gradeToIntMap.get(subjectConditions[i]['mingrades'].strip())
                         print "minGradeInInt= ", minGradeInInt
                         #Get the grade obtained by student from the current line
-                        lst=line.strip().split("\t")
-                        print "lst= ", lst
+                        lst=line.decode('utf-8').strip().split(" ")
+                        lst1 = str(lst).encode('utf-8')
+                        print "lst= ", lst[len(lst)-2]
+                        #if(str(lst1).__contains__('A')):
+                            #gradeObtained = 'A'
                         gradeObtained = lst[len(lst)-2]
+                        print gradeObtained
                         if(gradeObtained!=''):
                             gradeObtainedInt=gradeToIntMap.get(gradeObtained.strip())
                             print "gradeObtainedInt = ",gradeObtainedInt
@@ -309,16 +376,20 @@ def checkIfPrereqSatisfied(lstTranscriptLines,prereqCourseName,subjectConditions
 
 def getProfDetails(mapSubRequestedToEligibilityMap,infoDataSubjects):
     mapEligibleSubToProfMail={}
+    print "Req sub map" , mapSubRequestedToEligibilityMap
     for reqSub in mapSubRequestedToEligibilityMap.keys():
+        print "Req subject ", reqSub
         if(mapSubRequestedToEligibilityMap[reqSub]!='' and mapSubRequestedToEligibilityMap[reqSub]=='true'):
             for infoSub in infoDataSubjects:
+                print "Inside info for loop", infoSub["profEmail"]
+
                 if(infoSub["courseName"].lower() == reqSub.lower() and infoSub["profEmail"]!=''):
                     mapEligibleSubToProfMail[reqSub]=infoSub["profEmail"]
 
     return mapEligibleSubToProfMail
 
 if __name__ == '__main__':
-    app.run(port=4556, debug=True)
+    app.run(port=4557, debug=True)
     
 
     
