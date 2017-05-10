@@ -1,10 +1,10 @@
 import os
 from uuid import uuid4
-import pyautogui
+
 
 from flask import Flask, request, render_template, send_from_directory,redirect, url_for
 import sqlite3
-import time
+
 app = Flask(__name__)
   
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
