@@ -2,101 +2,94 @@
 	"subjects": [
 		{
 			"courseName": "CMPE 202",
-			"courseDesc": "Software Systems Engr",
-			"profName": "Paul Nguyen",
-			"profEmail": "paul.nguyen@sjsu.edu",
-			"prereqCourses": ""
+			"courseDesc": "SW Systems Engr",
+			"mingrades": "C+"
 		},
 		{
 			"courseName": "CMPE 272",
-			"courseDesc": "Ent SW Platforms",
-			"profName": "Rakesh Ranjan",
-			"profEmail": "rakesh.ranjan@sjsu.edu",
-			"prereqCourses": ""
+			"courseDesc": "Enterprise SW Overview",
+			"mingrades": ""
 		},
-	  	{
+		{
 			"courseName": "CMPE 273",
 			"courseDesc": "Ent Dist Systems",
-			"profName": "Sithu Aung",
-			"profEmail": "sithu.aung@sjsu.edu",
-			"prereqCourses": "CMPE 272"
+			"mingrades": "A"
 		},
 		{
 			"courseName": "CMPE 275",
-			"courseDesc": "Ent Dist Systems",
-			"profName": "Sithu Aung",
-			"profEmail": "sithu.aung@sjsu.edu",
-			"prereqCourses": "CMPE 273"
+			"courseDesc": "Enterprise Application Development",
+			"mingrades": "C"
 		},
 		{
 			"courseName": "CMPE 281",
-			"courseDesc": "Cloud Computing",
-			"profName": "Paul Nguyen",
-			"profEmail": "paul.nguyen@sjsu.edu",
-			"prereqCourses": "CMPE 202"
+			"courseDesc": "Cloud Technologies",
+			"mingrades": "B+"
 		},
 		{
 			"courseName": "CMPE 283",
-			"courseDesc": "Virtualization",
-			"profName": "M Larkin",
-			"profEmail": "larkin@sjsu.edu",
-			"prereqCourses": "CMPE 281"
+			"courseDesc": " Virtualization Technologiess",
+			"mingrades": "B"
+		},
+		{
+			"courseName": "CMPE 285",
+			"courseDesc": "Software Engineering Processes",
+			"mingrades": "C"
+		},
+		{
+			"courseName": "CMPE 287",
+			"courseDesc": "Software Quality Assurance and Testing",
+			"mingrades": "C"
+		},
+		{
+			"courseName": "CMPE 206",
+			"courseDesc": "Computer Network Design",
+			"mingrades": "C"
+		},
+		{
+			"courseName": "CMPE 207",
+			"courseDesc": "Network Programming and Applications",
+			"mingrades": "B"
 		},
 		{
 			"courseName": "EE 210",
 			"courseDesc": "Linear System Theory",
-			"profName": "M Larkin",
-			"profEmail": "larkin@sjsu.edu",
-			"prereqCourses": ""
+			"mingrades": "B"
 		},
 		{
 			"courseName": "EE 221",
 			"courseDesc": "Semiconductor Devices Overview",
-			"profName": "M Larkin",
-			"profEmail": "larkin@sjsu.edu",
-			"prereqCourses": ""
+			"mingrades": "C"
 		},
 		{
 			"courseName": "EE 250",
 			"courseDesc": "Probabilities, Random Variables and Stochastic Process",
-			"profName": "M Larkin",
-			"profEmail": "larkin@sjsu.edu",
-			"prereqCourses": ""
+			"mingrades": "C"
 		},
 		{
 			"courseName": "EE 251",
 			"courseDesc": "Digital Communication Systems",
-			"profName": "M Larkin",
-			"profEmail": "larkin@sjsu.edu",
-			"prereqCourses": "EE 250"
+			"mingrades": "C"
 		},
 		{
 			"courseName": "EE 252",
 			"courseDesc": "Advanced Communiction Systems",
-			"profName": "M Larkin",
-			"profEmail": "larkin@sjsu.edu",
-			"prereqCourses": "EE 250"
+			"mingrades": ""
 		},
 		{
 			"courseName": "EE 253",
-			"courseDesc": "Digital Signal Processing I",
-			"profName": "M Larkin",
-			"profEmail": "larkin@sjsu.edu",
-			"prereqCourses": "EE 210"
+			"courseDesc": "Digital Signal Processing",
+			"mingrades": "C"
 		},
 		{
 			"courseName": "EE 254",
 			"courseDesc": "Adaptive Signal Processing",
-			"profName": "M Larkin",
-			"profEmail": "larkin@sjsu.edu",
-			"prereqCourses": "EE 210"
+			"mingrades": ""
 		},
 		{
 			"courseName": "EE 260",
 			"courseDesc": "RFID Systems",
-			"profName": "M Larkin",
-			"profEmail": "larkin@sjsu.edu",
-			"prereqCourses": "EE 251"
+			"mingrades": ""
 		}
+		
 	]
 }
