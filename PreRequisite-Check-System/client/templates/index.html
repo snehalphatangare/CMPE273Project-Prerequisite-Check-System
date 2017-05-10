@@ -1,0 +1,38 @@
+<html>
+  <head>
+   
+    <title>Second Page-Enrollment Details</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link 
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+   
+<script type="text/javascript">
+
+    function showHref(obj) {
+        var hrefEnrollType = obj.getAttribute("href");      
+        sessionStorage.setItem("hrefEnrollTypeVal",hrefEnrollType);
+        return true;
+    }
+    </script>
+
+
+  </head>
+  
+  <body style="background:linear-gradient(to right,rgba(255, 152, 0, 0.67),white)">
+
+    <div class="container">
+      <br>
+      <br>
+      <center><h1 style="color:black">ENROLLMENT DETAILS</h1></center>
+      <br>
+      <br>
+      <center>
+    
+     <b><a style="font-size:200%" id="link" onClick="showHref(this);"  style="font-family:verdana" style="color:indianred" href="{{ url_for('master') }}">Masters Enrollment|</a></b> 
+     <b><a style="font-size:200%" id="link" onClick="showHref(this);"  style="font-family:verdana" style="color:indianred" href="{{ url_for('fine') }}">Semester Enrollment</a></b>  
+	  </center>
+	  
+    </div>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Upload</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+ <style>
+     body{
+       background:linear-gradient(to right,rgba(255, 152, 0, 0.67),white)
+     }
+     </style>
+</head>
+<body>
+
+<form id="upload-form" action="{{ url_for('uploadfile') }}" method="POST" enctype="multipart/form-data">
+
+    <br />
+<br />
+    <strong style="font-size:200%" style="font-family:verdana">Please Upload Your Transcript:</strong><br>
+    <br />
+    <input id="file-picker" type="file" name="file" multiple>
+    <div id="msg"></div>
+    <input id="courses" type="hidden" name="courses" value="">
+       <br />
+    <br />
+    <input style="font-size:100%" width="100" type="submit" value="Upload" id="upload-button">
+</form>
+</body>
+<script type="text/javascript">
+
+    var urlParams = new URLSearchParams(window.location.search);
+    
+    $('#courses').val(urlParams);
+
+    sessionStorage.setItem("courses",urlParams);
+
+    $("#file-picker").change(function(){
+
+        var input = document.getElementById('file-picker');
+
+        for (var i=0; i<input.files.length; i++)
+        {
+        
+            var ext= input.files[i].name.substring(input.files[i].name.lastIndexOf('.')+1).toLowerCase()
+
+            if ((ext == 'jpg') || (ext == 'JPEG') || (ext == 'png')|| (ext == 'pdf') || (ext == 'txt') || (ext == 'doc') || (ext == 'docx') || (ext == ''))
+            {
+                $("#msg").text("Files are supported")
+            }
+            else
+            {
+                $("#msg").text("Files are NOT supported")
+                document.getElementById("file-picker").value ="";
+            }
+
+        }
+
+
+    });
+
+
+   
+
+</script>
+</html>

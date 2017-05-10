@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        
+        button {
+            clear: both;
+            display: block;
+        }
+    </style>
+
+    <title>third Page-NEWS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  
+ <body style="background:linear-gradient(to right,rgba(255, 152, 0, 0.67),white)">
+    <div class="container">
+     
+       <br />
+	  <center><h1 style="font-size:250%" style="font-family:verdana">MSSE courses: You can Enroll to 3 Courses</h1></center>
+      <br />
+       <br />
+
+	  <form id="upload-form" action="{{ url_for('upload') }}" >
+	  <!--<form action="upload.html" method="GET"> -->
+	  <input class="source" id="1" type="checkbox" name="CMPE 202"  />CMPE 202
+      <br />
+       <br />
+	  <input class="source" id="2" type="checkbox" name="CMPE 272"  />CMPE 272
+      <br />
+       <br />
+	  <input class="source" id="3" type="checkbox" name="CMPE 273"  />CMPE 273
+      <br />
+       <br />
+	  <input class="source" id="4" type="checkbox" name="CMPE 275"  />CMPE 275
+      <br />
+       <br />
+	  <input class="source" id="5" type="checkbox" name="CMPE 281"  />CMPE 281
+      <br />
+      <br />
+	  <input class="source" id="6" type="checkbox" name="CMPE 283"  />CMPE 283
+	  <br />
+      <br />
+	  <input class="source" id="7" type="checkbox" name="CMPE 285"  />CMPE 285
+      <br />
+       <br />
+	  <input class="source" id="8" type="checkbox" name="CMPE 287"  />CMPE 287
+      <br />
+       <br />
+	  <input class="source" id="9" type="checkbox" name="CMPE 206"  />CMPE 206
+      <br />
+       <br />
+	  <input class="source" id="10" type="checkbox" name="CMPE 207"  />CMPE 207
+      <br />
+      <p></p>
+      <!--
+	  <input type="submit" name="submit" value="Register!!"/>
+	  -->
+    <br />
+       <br />
+    <input align="center" type="submit" value="Register!!" id="upload-button">
+</form>
+
+
+<script type="text/javascript">
+var reply_click = function()
+{
+    //alert("Button clicked, id "+this.id+", text"+this.innerHTML);
+    return redirect(url_for('get_javascript_data',jsdata=this.id))
+}
+document.getElementById('1').onclick = reply_click;
+document.getElementById('2').onclick = reply_click;
+document.getElementById('3').onclick = reply_click;
+</script>
+
+    </div>
+  </body>
+</html>

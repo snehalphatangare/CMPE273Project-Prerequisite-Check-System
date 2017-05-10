@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <style>
+    body {
+      background:linear-gradient(to right,rgba(255, 152, 0, 0.67),white)
+    }
+    .container{
+      width: 360px;
+      padding: 8% 0 0;
+      margin: auto;
+    }
+</style>
+<link rel="stylesheet" href="css/style.css">
+
+    <title>Flask Intro - login page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+    <!--<script language="javascript" type="text/javascript" src="/Users/Abhishek/Sem1Projects/CMPE273Project/PrereqCheckSystem/client/static/asd.js"></script>-->
+<script type="text/javascript">
+
+    function showInput() {
+        var email = document.getElementById("username").value;
+        sessionStorage.setItem("userEMail",email);
+
+    }
+ 
+</script>
+  
+  </head>
+  <body>
+    <br>
+    <br>
+    <h1 align="center" style="font-family:verdana" style="color:midnightblue"><b>Pre-Requisite Check System</b></h1>
+    <div class="container">
+      <h1 align="margin-left">Sign In</h1>
+      <br>
+      <form action="" method="POST">
+        <input id="username" style="font-size:120%" style="font-family:verdana" style="color:#999" type="text" placeholder="Username" name="username" value="{{
+          request.form.username }}">
+
+          <br>
+          </br>
+
+         <input type="password" align="center" style="font-size:120%" style="font-family:verdana" placeholder="Password" name="password" value="{{
+          request.form.password }}">
+          <br>
+          </br>
+        <input style="font-size:150%" style="font-family:verdana" style="color:indianred" class="btn btn-default" type="submit" value="Login" onClick="showInput();">
+      </form>
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+      {% endif %}
+    </div>
+
+
+  </body>
+</html>

@@ -1,0 +1,78 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        
+        button {
+            clear: both;
+            display: block;
+        }
+    </style>
+
+    <title>third Page-NEWS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  
+ <body style="background:linear-gradient(to right,rgba(255, 152, 0, 0.67),white)">
+    <div class="container">
+     
+	  <br />
+       <br />
+	  <center><h1 style="font-size:250%" style="font-family:verdana">MSEE courses: (You can enroll to 3 courses)</h1></center>
+      <br />
+       <br />
+
+	  <form id="upload-form" action="{{ url_for('upload') }}" >
+	  <!--<form action="upload.html" method="GET"> -->
+	  <input id="1" type="checkbox" name="EE 250"  />EE 250
+      <br />
+       <br />
+	  <input id="2" type="checkbox" name="EE 251"  />EE 251
+      <br />
+       <br />
+	  <input id="3" type="checkbox" name="EE 252"  />EE 252
+      <br />
+       <br />
+	  <input id="4" type="checkbox" name="EE 253"  />EE 253
+      <br />
+       <br />
+	  <input id="5" type="checkbox" name="EE 254"  />EE 254
+      <br />
+       <br />
+	  <input id="6" type="checkbox" name="EE 255"  />EE 255
+      <br />
+       <br />
+	  <input id="7" type="checkbox" name="EE 210"  />EE 210
+	  <br />
+       <br />
+	  <input id="8" type="checkbox" name="EE 221"  />EE 221
+      <br />
+       <br />
+	  <input id="9" type="checkbox" name="EE 260"  />EE 260
+      <br />
+      <p></p>
+      <!--
+	  <input type="submit" name="submit" value="Register!!"/>
+	  -->
+       <br />
+        <br />
+    <input type="submit" value="Register!!" id="upload-button">
+</form>
+
+
+<script type="text/javascript">
+var reply_click = function()
+{
+    //alert("Button clicked, id "+this.id+", text"+this.innerHTML);
+    return redirect(url_for('get_javascript_data',jsdata=this.id))
+}
+document.getElementById('1').onclick = reply_click;
+document.getElementById('2').onclick = reply_click;
+document.getElementById('3').onclick = reply_click;
+</script>
+
+    </div>
+  </body>
+</html>

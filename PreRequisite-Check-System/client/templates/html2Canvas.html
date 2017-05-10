@@ -1,0 +1,87 @@
+<html>
+<head>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="static/html2canvas.js"></script>
+<script type="text/javascript" src="static/jquery.plugin.html2canvas.js"></script>
+</head>
+<body>
+    <body style="background:linear-gradient(to right,rgba(255, 152, 0, 0.67),white)">
+<h2>Implementation of Html2Canvas</h2>
+<form method="POST" enctype="multipart/form-data" action="http://127.0.0.1:4557/doOCR" id="myForm">
+    <input name="img_val" id="img_val" value="" type="hidden">
+    <input id="courses" type="hidden" name="courses" value="">
+    <input id="userEmail" type="hidden" name="userEmail" value="">
+    <input id="hrefEnrollType" type="hidden" name="hrefEnrollType" value="">
+</form>
+<table>
+    <tbody><tr>
+        <td colspan="2">
+            <table width="100%">
+                    <tbody><tr>
+                        <td>
+<br />
+                            <input value="Run HTML2Canvas" onclick="capture();" type="submit">
+                   
+                        </td>
+                        
+                    </tr>
+                </tbody></table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="target">
+                <table cellpadding="10">
+                    <tbody>
+                    
+                    
+                    
+                    <tr>
+                    
+                        <td><img src=" {{url_for('send_image', filename=image_name)}}" width="120%" height="120%"/></td>
+                    </tr>
+                </tbody></table>
+            </div>
+        </td>
+    </tr>
+</tbody></table>
+<script type="text/javascript">
+
+    var selectedCourses = sessionStorage.getItem("courses");
+    $('#courses').val(selectedCourses);
+
+    var userEmailAddr = sessionStorage.getItem("userEMail");
+    $('#userEmail').val(userEmailAddr);
+
+    var hrefEnrollType = sessionStorage.getItem("hrefEnrollTypeVal");
+    $('#hrefEnrollType').val(hrefEnrollType);
+
+    function capture() {
+        $('#target').html2canvas({
+            onrendered: function (canvas) {
+                $('#img_val').val(canvas.toDataURL("image/png"));
+                document.getElementById("myForm").submit();
+            }
+        });
+    }
+</script>
+<style type="text/css">
+    #target {
+        border: 1px solid #CCC;
+        padding: 5px;
+        margin: 5px;
+    }
+    h2, h3 {
+        color: #003d5d;
+    }
+    p {
+        color:#AA00BB;
+    }
+    #more {
+        font-family: Verdana;
+        color: purple;
+        background-color: #d8da3d;
+    }
+</style>
+</body>
+</html>
