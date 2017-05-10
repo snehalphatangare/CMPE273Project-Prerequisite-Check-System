@@ -20,6 +20,7 @@ Tools -
 1.pytesseract :
     Python-tesseract is an optical character recognition (OCR) tool for python.
     That is, it will recognize and "read" the text embedded in transcript.
+    
 2.HTMLtoCanvas:
     This javascript allows to take "screenshots" of transcript or parts of it, directly on the users browser.    
 3.Flask:
