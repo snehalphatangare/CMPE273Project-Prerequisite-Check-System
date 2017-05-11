@@ -9,11 +9,14 @@ Send the submission confirmation email and store the data into database.
 
 Abstract
 
-We will be building a pre-requisite check system using Python-tesseract tool.
-This check systems performs OCR on the transcript image uploaded and extracts required texts from it.
-The system performs student eligibilty check of his GPA and store the details in database if he satisfies the enrollment eligibility.
-The system then send the email notification if the student is successfully enrolled. 
+We have built a pre-requisite check system using Python-tesseract tool.
+This check systems performs OCR on the transcript uploaded and extracts required fields from it.
+The system performs student eligibilty check and stores the details in database if he satisfies the enrollment eligibility.
+The system then sends an email notification to the student and professor if he/she is eligible for enrollment. 
 
+Use Cases:
+Master's Enrollment
+Semester Enrollment
 
 Tools -
 
@@ -22,7 +25,10 @@ Tools -
     That is, it will recognize and "read" the text embedded in transcript.
     
 2.HTMLtoCanvas:
-    This javascript allows to take "screenshots" of transcript or parts of it, directly on the users browser.    
+    This javascript allows to take "screenshots" of transcript or parts of it, directly on the users browser.   
+    
 3.Flask:
     Flask web microframework for building Pre-requisite Check web application with Python.
+
+4. SQLite Database
 
