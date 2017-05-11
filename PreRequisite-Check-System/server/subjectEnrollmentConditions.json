@@ -1,24 +1,54 @@
 {
 	"subjects": [
-	  	{
-			"courseName": "CMPE 272",
-			"courseDesc": "Enterprise SW Overview",
-			"mingrades": ""
-		},
 		{
 			"courseName": "CMPE 202",
 			"courseDesc": "SW Systems Engr",
 			"mingrades": "C+"
 		},
 		{
+			"courseName": "CMPE 272",
+			"courseDesc": "Enterprise SW Overview",
+			"mingrades": ""
+		},
+		{
 			"courseName": "CMPE 273",
 			"courseDesc": "Ent Dist Systems",
-			"mingrades": "A"
+			"mingrades": ""
+		},
+		{
+			"courseName": "CMPE 275",
+			"courseDesc": "Enterprise Application Development",
+			"mingrades": "C"
 		},
 		{
 			"courseName": "CMPE 281",
-			"courseDesc": "Cloud Computing",
+			"courseDesc": "Cloud Technologies",
 			"mingrades": "B+"
+		},
+		{
+			"courseName": "CMPE 283",
+			"courseDesc": " Virtualization Technologiess",
+			"mingrades": "B"
+		},
+		{
+			"courseName": "CMPE 285",
+			"courseDesc": "Software Engineering Processes",
+			"mingrades": "C"
+		},
+		{
+			"courseName": "CMPE 287",
+			"courseDesc": "Software Quality Assurance and Testing",
+			"mingrades": "C"
+		},
+		{
+			"courseName": "CMPE 206",
+			"courseDesc": "Computer Network Design",
+			"mingrades": "C"
+		},
+		{
+			"courseName": "CMPE 207",
+			"courseDesc": "Network Programming and Applications",
+			"mingrades": "B"
 		},
 		{
 			"courseName": "EE 210",
@@ -26,14 +56,39 @@
 			"mingrades": "B"
 		},
 		{
-			"courseName": "CMPE 250",
-			"courseDesc": "Probabilities, Random Variables and Stochastic Process",
-			"mingrades": "B+"
+			"courseName": "EE 221",
+			"courseDesc": "Semiconductor Devices Overview",
+			"mingrades": "C"
 		},
 		{
-			"courseName": "CMPE 251",
+			"courseName": "EE 250",
+			"courseDesc": "Probabilities, Random Variables and Stochastic Process",
+			"mingrades": "C"
+		},
+		{
+			"courseName": "EE 251",
 			"courseDesc": "Digital Communication Systems",
 			"mingrades": "C"
+		},
+		{
+			"courseName": "EE 252",
+			"courseDesc": "Advanced Communiction Systems",
+			"mingrades": ""
+		},
+		{
+			"courseName": "EE 253",
+			"courseDesc": "Digital Signal Processing",
+			"mingrades": "C"
+		},
+		{
+			"courseName": "EE 254",
+			"courseDesc": "Adaptive Signal Processing",
+			"mingrades": ""
+		},
+		{
+			"courseName": "EE 260",
+			"courseDesc": "RFID Systems",
+			"mingrades": ""
 		}
 		
 	]
