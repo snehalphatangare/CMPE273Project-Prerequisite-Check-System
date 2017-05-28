@@ -31,3 +31,6 @@ Semester Enrollment
     Flask web microframework for building Pre-requisite Check web application with Python.
  
 ##### 4.SQLite Database
+
+Final Project Folder:
+https://github.com/abhiCITI1/CMPE273Project-Prerequisite-Check-System/tree/master/PreRequisite-Check-System
