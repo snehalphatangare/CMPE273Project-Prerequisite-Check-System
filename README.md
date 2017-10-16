@@ -15,8 +15,8 @@ The system performs student eligibilty check and stores the details in database 
 The system then sends an email notification to the student and professor if he/she is eligible for enrollment. 
 
 #### Use Cases:
-Master's Enrollment
-Semester Enrollment
+* Master's Enrollment
+* Semester Enrollment
 
 #### Tools -
 
